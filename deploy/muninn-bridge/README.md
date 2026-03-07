@@ -23,6 +23,15 @@ cd deploy/muninn-bridge
 ./install_muninn_openclaw_bridge.sh
 ```
 
+If `muninn` is missing, the script auto-installs it from:
+`https://raw.githubusercontent.com/scrypster/muninndb/main/install.sh`
+
+Optional override:
+
+```bash
+MUNINN_INSTALL_CMD='your custom install command' ./install_muninn_openclaw_bridge.sh
+```
+
 ## Verify
 
 ```bash
