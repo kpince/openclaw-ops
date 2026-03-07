@@ -106,3 +106,27 @@ curl -s -H 'Content-Type: application/json' \
 ```
 
 Expected: agent response should track top-ranked activation from Muninn recall injection.
+
+## Next phase candidate (WooCommerce sales agent)
+
+Target environment:
+- Another droplet running OpenClaw as a customer-facing sales agent for a WordPress/WooCommerce shop.
+- Current capabilities include customer chat, customer creation, and order creation.
+
+Why this is the first knowledge-graph candidate:
+- High business impact with clear measurable outcomes.
+- Repeated entities and relationships already exist (customer, product, order, cart, category).
+- Persistent memory + graph grounding can reduce bad recommendations and improve follow-up quality.
+
+Initial design direction:
+1. Persistent customer profile memory
+- intent, budget range, preferences, objections, language/tone notes.
+2. Product relationship graph
+- alternatives, complements, substitutes, compatibility.
+3. Order/session continuity
+- preserve active cart/decision context across sessions and channels.
+4. Follow-up intelligence
+- abandoned cart, restock interest, upsell/cross-sell timing based on prior interactions.
+
+Execution principle:
+- stabilize memory loop first, then layer graph retrieval on top of existing recall path.
