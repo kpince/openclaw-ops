@@ -70,3 +70,39 @@ Prompt the agent with:
 - "Read `/root/openclaw-ops/STATE.md` and continue from current deployment state."
 
 If working on another host, clone repo first, then point agent to that host's checked-out `STATE.md`.
+
+## Muninn recall experiment (quick protocol)
+
+Use this when you want to validate live recall behavior.
+
+1. Seed memory A:
+
+```bash
+curl -s -H 'Content-Type: application/json' \
+  -d '{"concept":"exp_test","content":"My favorite fallback model is Claude Haiku 4.5","vault":"default","confidence":0.95}' \
+  http://127.0.0.1:8475/api/engrams
+```
+
+2. Ask agent:
+- "What is my favorite fallback model?"
+
+3. Seed conflicting memory B:
+
+```bash
+curl -s -H 'Content-Type: application/json' \
+  -d '{"concept":"exp_test","content":"Correction: favorite fallback model is GPT-4o mini","vault":"default","confidence":0.99}' \
+  http://127.0.0.1:8475/api/engrams
+```
+
+4. Ask again:
+- "What is my favorite fallback model now?"
+
+5. Inspect what Muninn returns:
+
+```bash
+curl -s -H 'Content-Type: application/json' \
+  -d '{"context":["favorite fallback model"],"vault":"default","limit":5,"mode":"balanced"}' \
+  http://127.0.0.1:8475/api/activate
+```
+
+Expected: agent response should track top-ranked activation from Muninn recall injection.
