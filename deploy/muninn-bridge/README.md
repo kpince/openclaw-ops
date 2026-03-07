@@ -55,3 +55,10 @@ openclaw agent --session-id native-inject-check \
 
 - This pack is idempotent and safe to re-run.
 - The OpenClaw drop-in is used so OpenClaw updates do not wipe Muninn auto-start behavior.
+
+## Included Skill
+
+- `skills/muninn-native-memory/SKILL.md`
+
+Use this SKILL.md in your OpenClaw instance to enforce the session-level
+Muninn recall/write-back loop in agent behavior.
