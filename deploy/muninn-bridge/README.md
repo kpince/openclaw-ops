@@ -1,6 +1,7 @@
 # Muninn Bridge Deployment Pack
 
 This pack deploys update-safe Muninn integration for OpenClaw instances.
+It assumes OpenClaw is already installed.
 
 ## What it installs
 
@@ -13,6 +14,8 @@ This pack deploys update-safe Muninn integration for OpenClaw instances.
   - `~/.config/systemd/user/openclaw-gateway.service.d/override.conf`
 - OpenClaw config patch in:
   - `~/.openclaw/openclaw.json`
+- OpenClaw MCP patch in:
+  - `~/.openclaw/mcp.json`
 
 ## Install
 
@@ -26,10 +29,24 @@ cd deploy/muninn-bridge
 If `muninn` is missing, the script auto-installs it from:
 `https://raw.githubusercontent.com/scrypster/muninndb/main/install.sh`
 
+The installer enforces Muninn as the memory backend by:
+- removing `memory-sqlite` from `plugins.allow`
+- disabling `plugins.entries["memory-sqlite"]` if present
+- enabling/configuring `muninn-bridge`
+- patching MCP endpoint to `http://localhost:8750/mcp`
+
 Optional override:
 
 ```bash
 MUNINN_INSTALL_CMD='your custom install command' ./install_muninn_openclaw_bridge.sh
+```
+
+Optional endpoint overrides:
+
+```bash
+MUNINN_BASE_URL='http://127.0.0.1:8475' \
+MUNINN_MCP_URL='http://localhost:8750/mcp' \
+./install_muninn_openclaw_bridge.sh
 ```
 
 ## Verify
