@@ -1,5 +1,15 @@
 # Codex Muninn Installer
 
+Legacy pack. The canonical install path is now the repository root:
+
+```bash
+git clone git@github.com:kpince/openclaw-ops.git
+cd openclaw-ops
+sudo -E ./install.sh
+```
+
+Use this legacy pack only for comparison or rollback.
+
 One-command installer for giving Codex durable memory backed by MuninnDB.
 
 This pack is intentionally separate from OpenClaw. It installs:
@@ -27,7 +37,7 @@ After install, Codex gets:
 - `~/init.md`
   - session-start instruction file telling Codex to check memory first
 
-## Install
+## Legacy Install
 
 Run from this pack directory:
 

@@ -1,5 +1,15 @@
 # Muninn Bridge Deployment Pack
 
+Legacy pack. The canonical install path is now the repository root:
+
+```bash
+git clone git@github.com:kpince/openclaw-ops.git
+cd openclaw-ops
+sudo -E ./install.sh
+```
+
+Use this bridge pack only if you explicitly need the earlier bridge-based approach.
+
 This pack deploys update-safe Muninn integration for OpenClaw instances.
 It assumes OpenClaw is already installed.
 

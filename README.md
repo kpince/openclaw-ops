@@ -2,6 +2,18 @@
 
 Operational deployment assets for OpenClaw instances.
 
+## Canonical Path
+
+Use the repository root installer.
+
+```bash
+git clone git@github.com:kpince/openclaw-ops.git
+cd openclaw-ops
+sudo -E ./install.sh
+```
+
+Everything under `deploy/` is legacy. It is kept for history and comparison, not as the default install path.
+
 ## Packs
 
 - `deploy/muninn-bridge`: Earlier update-safe Muninn bridge integration for OpenClaw.
