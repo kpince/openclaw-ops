@@ -1,0 +1,25 @@
+{
+  "id": "muninn-bridge",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": { "type": "boolean" },
+      "baseUrl": { "type": "string" },
+      "defaultVault": { "type": "string" },
+      "timeoutMs": { "type": "number" },
+      "autoInject": { "type": "boolean" },
+      "autoStore": { "type": "boolean" }
+    }
+  },
+  "uiHints": {
+    "baseUrl": {
+      "label": "Muninn Base URL",
+      "placeholder": "http://127.0.0.1:8475"
+    },
+    "defaultVault": {
+      "label": "Default Vault",
+      "placeholder": "default"
+    }
+  }
+}

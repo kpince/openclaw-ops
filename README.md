@@ -1,8 +1,18 @@
-# Muninn OpenClaw Kit
+# openclaw-ops
 
-One-click-ish MuninnDB + OpenClaw integration kit.
+Operational deployment assets for OpenClaw instances.
 
-This repo packages:
+## Packs
+
+- `deploy/muninn-bridge`: Earlier update-safe Muninn bridge integration for OpenClaw.
+- `deploy/codex-muninn-installer`: Earlier one-command Muninn-backed durable memory installer for Codex, separate from OpenClaw.
+- Repository root: current Muninn/OpenClaw/Codex bootstrap kit with dedicated Codex vault support.
+
+## Root Kit
+
+The repository root now contains the current installable Muninn/OpenClaw kit.
+
+It packages:
 - the `muninn-backbone` OpenClaw plugin
 - the `memory-muninn` workspace skill
 - a Codex bootstrap file and Muninn helper CLI
@@ -33,8 +43,8 @@ This repo packages:
 ## Install
 
 ```bash
-git clone <REPO_URL>
-cd muninn-openclaw-kit
+git clone git@github.com:kpince/openclaw-ops.git
+cd openclaw-ops
 
 export MUNINN_OPENAI_KEY=sk-proj-...
 export MUNINN_ENRICH_API_KEY="$MUNINN_OPENAI_KEY"
@@ -99,18 +109,21 @@ This removes the plugin, skill, and MCP wiring. It does not remove Muninn data u
 ## Repo Layout
 
 ```text
-plugin/                      OpenClaw runtime plugin
-skills/memory-muninn/        Workspace skill
-scripts/                     Backfill/import helpers
-templates/codex.init.template
-systemd/                     Base muninndb unit
-templates/                   Installer-rendered override templates
-install.sh                   Main installer
-uninstall.sh                 Cleanup script
+README.md                                      Repo index + current root kit docs
+install.sh                                     Current root installer
+plugin/                                        OpenClaw runtime plugin
+skills/memory-muninn/                          Workspace skill
+scripts/                                       Backfill/import helpers
+templates/                                     Installer-rendered templates
+systemd/                                       Base muninndb unit
+uninstall.sh                                   Root cleanup script
+deploy/muninn-bridge/                          Earlier bridge-based deploy pack
+deploy/codex-muninn-installer/                 Earlier Codex-only installer pack
+STATE.md                                       Prior state snapshot and integration notes
 ```
 
 ## Notes
 
 - The plugin is upgrade-safe because it lives outside OpenClaw core.
 - The installer intentionally does not patch OpenClaw source files.
-- If you want a fully automated Muninn binary download path, add your preferred pinned release fetch step to `install.sh`.
+- The older `deploy/*` packs are preserved for history and comparison.
