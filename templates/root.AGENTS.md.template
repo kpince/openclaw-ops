@@ -1,0 +1,8 @@
+# AGENTS.md
+
+Read `/root/codex.init` before doing anything substantial.
+
+It defines:
+- the Codex Muninn vault to use (`${INSTALL_CODEX_VAULT}`)
+- the workspace continuity files to load (`${INSTALL_WORKSPACE_DIR}`)
+- the session-start and memory-write procedure for persistent Codex memory

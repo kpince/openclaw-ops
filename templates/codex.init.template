@@ -1,0 +1,71 @@
+# codex.init
+
+Use this file to bootstrap each new Codex session on this droplet.
+
+## Identity
+
+- Persistent memory vault: `${INSTALL_CODEX_VAULT}`
+- Workspace continuity files: `${INSTALL_WORKSPACE_DIR}`
+- Muninn helper: `${INSTALL_CODEX_BIN_DIR}/codex-muninn`
+- Direct MCP endpoint: `http://127.0.0.1:8750/mcp`
+
+## Rules
+
+1. Keep `${INSTALL_WORKSPACE_DIR}/MEMORY.md` and `${INSTALL_WORKSPACE_DIR}/memory/*.md` intact. They remain the human-readable continuity layer.
+2. Use MuninnDB vault `${INSTALL_CODEX_VAULT}` as Codex's private long-term memory.
+3. Use Muninn incrementally and extensively:
+   - At session start: recover active threads.
+   - Before substantial work: recall relevant history.
+   - After meaningful work: store atomic memories for decisions, constraints, preferences, infra facts, and project state.
+4. Do not overwrite OpenClaw updates or core source just to force memory integration. Prefer plugin, installer, and workspace-level changes.
+
+## Session Start Checklist
+
+Run these at the start of a new Codex session:
+
+```bash
+cd ${INSTALL_WORKSPACE_DIR}
+codex-muninn status
+codex-muninn where-left-off --limit 5
+```
+
+If the task is known, also run:
+
+```bash
+codex-muninn recall --limit 6 "<task, repo, issue, user, or system context>"
+```
+
+Then read:
+
+- `${INSTALL_WORKSPACE_DIR}/AGENTS.md`
+- `${INSTALL_WORKSPACE_DIR}/SOUL.md`
+- `${INSTALL_WORKSPACE_DIR}/USER.md`
+- `${INSTALL_WORKSPACE_DIR}/MEMORY.md`
+- `${INSTALL_WORKSPACE_DIR}/memory/YYYY-MM-DD.md` for today and yesterday if present
+
+## MCP Fallback
+
+If `codex-muninn` cannot connect from inside a Codex sandbox, call Muninn directly over MCP using the bearer token in `${INSTALL_OPENCLAW_DIR}/mcp.json`.
+
+Example:
+
+```bash
+curl -fsS http://127.0.0.1:8750/mcp \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer <token from ${INSTALL_OPENCLAW_DIR}/mcp.json>' \
+  --data '{"jsonrpc":"2.0","id":"codex-leftoff","method":"tools/call","params":{"name":"muninn_where_left_off","arguments":{"vault":"${INSTALL_CODEX_VAULT}","limit":5}}}'
+```
+
+## Memory Write Pattern
+
+Store durable outcomes as small atomic memories, not long dumps.
+
+Examples:
+
+```bash
+codex-muninn remember --type preference --concept "user-language" --summary "Ebru prefers Turkish" "Ebru prefers Turkish and direct, efficient communication."
+
+codex-muninn remember --type constraint --concept "openclaw-memory-policy" --summary "Do not replace workspace memory files" "OpenClaw workspace Markdown memory files remain intact; Muninn is the durable semantic backbone."
+
+codex-muninn remember --type decision --concept "codex-vault" --summary "Codex uses its own vault" "Codex uses the dedicated Muninn vault ${INSTALL_CODEX_VAULT} on this droplet instead of sharing the default vault."
+```

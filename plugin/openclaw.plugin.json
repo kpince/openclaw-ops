@@ -1,0 +1,100 @@
+{
+  "id": "muninn-backbone",
+  "name": "Muninn Backbone",
+  "description": "MuninnDB-backed long-term memory guidance and proactive recall for OpenClaw.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": { "type": "boolean" },
+      "mcpConfigPath": { "type": "string" },
+      "serverName": { "type": "string" },
+      "vault": { "type": "string" },
+      "recallMode": {
+        "type": "string",
+        "enum": ["semantic", "recent", "balanced", "deep"]
+      },
+      "recallLimit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10
+      },
+      "whereLeftOffLimit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10
+      },
+      "injectWhereLeftOff": { "type": "boolean" },
+      "autoCapture": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": { "type": "boolean" },
+          "maxItems": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "maxChars": {
+            "type": "integer",
+            "minimum": 80,
+            "maximum": 4000
+          },
+          "dedupeThreshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      },
+      "guidance": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": { "type": "boolean" }
+        }
+      }
+    }
+  },
+  "uiHints": {
+    "mcpConfigPath": {
+      "label": "MCP Config Path",
+      "placeholder": "~/.openclaw/mcp.json"
+    },
+    "serverName": {
+      "label": "MCP Server Name",
+      "placeholder": "muninn"
+    },
+    "vault": {
+      "label": "Vault",
+      "placeholder": "default"
+    },
+    "recallMode": {
+      "label": "Recall Mode"
+    },
+    "recallLimit": {
+      "label": "Recall Limit"
+    },
+    "whereLeftOffLimit": {
+      "label": "Where Left Off Limit"
+    },
+    "injectWhereLeftOff": {
+      "label": "Inject Where Left Off"
+    },
+    "autoCapture.enabled": {
+      "label": "Auto Capture"
+    },
+    "autoCapture.maxItems": {
+      "label": "Auto Capture Max Items"
+    },
+    "autoCapture.maxChars": {
+      "label": "Auto Capture Max Chars"
+    },
+    "autoCapture.dedupeThreshold": {
+      "label": "Auto Capture Dedupe Threshold"
+    },
+    "guidance.enabled": {
+      "label": "Inject Muninn Guidance"
+    }
+  }
+}

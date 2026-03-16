@@ -1,0 +1,17 @@
+[Unit]
+Description=MuninnDB - Cognitive Memory Database
+After=network.target
+
+[Service]
+Type=notify
+User=root
+ExecStart=${INSTALL_MUNINN_BIN} --daemon --data ${INSTALL_MUNINN_DATA_DIR}
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=muninndb
+
+[Install]
+WantedBy=multi-user.target
