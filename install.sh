@@ -10,8 +10,11 @@ SCRIPT_DIR="$OPENCLAW_DIR/scripts"
 MCP_JSON="$OPENCLAW_DIR/mcp.json"
 OPENCLAW_JSON="$OPENCLAW_DIR/openclaw.json"
 CODEX_BIN_DIR="${CODEX_BIN_DIR:-$HOME/.local/bin}"
+CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
+CODEX_SKILLS_DIR="${CODEX_SKILLS_DIR:-$CODEX_HOME/skills}"
 CODEX_INIT_PATH="${CODEX_INIT_PATH:-$HOME/codex.init}"
 ROOT_AGENTS_PATH="${ROOT_AGENTS_PATH:-$HOME/AGENTS.md}"
+OPENCLAW_OPS_SKILL_DIR="$CODEX_SKILLS_DIR/openclaw-ops"
 CODEX_VAULT_NAME="${CODEX_VAULT_NAME:-codex}"
 OPENCLAW_VAULT_NAME="${OPENCLAW_VAULT_NAME:-default}"
 MUNINN_DATA_DIR="${MUNINN_DATA_DIR:-$HOME/.muninn/data}"
@@ -81,6 +84,12 @@ render_systemd_files() {
 render_codex_files() {
   mkdir -p "$CODEX_BIN_DIR"
   install -Dm755 "$ROOT_DIR/scripts/codex-muninn.mjs" "$CODEX_BIN_DIR/codex-muninn"
+  mkdir -p "$OPENCLAW_OPS_SKILL_DIR"
+  copy_tree "$ROOT_DIR/skills/openclaw-ops" "$OPENCLAW_OPS_SKILL_DIR"
+
+  if [[ -d "$OPENCLAW_OPS_SKILL_DIR/scripts" ]]; then
+    find "$OPENCLAW_OPS_SKILL_DIR/scripts" -type f -name '*.sh' -exec chmod 755 {} +
+  fi
 
   export INSTALL_CODEX_VAULT="$CODEX_VAULT_NAME"
   export INSTALL_WORKSPACE_DIR="$WORKSPACE_DIR"
@@ -187,6 +196,7 @@ postflight() {
   echo "OpenClaw plugin: ${EXT_DIR}"
   echo "Backfill script: ${SCRIPT_DIR}/import-muninn-backfill.mjs"
   echo "Codex helper: ${CODEX_BIN_DIR}/codex-muninn"
+  echo "Codex skill: ${OPENCLAW_OPS_SKILL_DIR}"
   echo "Codex init: ${CODEX_INIT_PATH}"
   echo "Root AGENTS: ${ROOT_AGENTS_PATH}"
   echo

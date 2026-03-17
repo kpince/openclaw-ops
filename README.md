@@ -27,6 +27,7 @@ The repository root now contains the current installable Muninn/OpenClaw kit.
 It packages:
 - the `muninn-backbone` OpenClaw plugin
 - the `memory-muninn` workspace skill
+- the `openclaw-ops` Codex skill
 - a Codex bootstrap file and Muninn helper CLI
 - a one-way Muninn backfill importer
 - systemd templates for `muninndb`
@@ -40,6 +41,7 @@ It packages:
 - Adds proactive recall before agent runs
 - Adds conservative auto-capture after successful agent runs
 - Creates a dedicated `codex` vault plus `/root/codex.init` bootstrap for Codex sessions
+- Installs the `openclaw-ops` skill into `~/.codex/skills/openclaw-ops`
 - Leaves `MEMORY.md` and `memory/*.md` intact
 
 ## Requirements
@@ -94,6 +96,7 @@ The installer also creates:
 - `/root/codex.init`
 - `/root/AGENTS.md`
 - `/root/.local/bin/codex-muninn`
+- `/root/.codex/skills/openclaw-ops`
 
 Typical new-session flow:
 
@@ -102,6 +105,12 @@ cd /root/.openclaw/workspace
 codex-muninn status
 codex-muninn where-left-off --limit 5
 codex-muninn recall "current task"
+```
+
+Inside Codex, invoke the bootstrap/troubleshooting skill by name:
+
+```text
+openclaw-ops
 ```
 
 Then store durable outcomes incrementally:
@@ -125,6 +134,7 @@ README.md                                      Repo index + current root kit doc
 install.sh                                     Current root installer
 plugin/                                        OpenClaw runtime plugin
 skills/memory-muninn/                          Workspace skill
+skills/openclaw-ops/                           Codex bootstrap + MCP troubleshooting skill
 scripts/                                       Backfill/import helpers
 templates/                                     Installer-rendered templates
 systemd/                                       Base muninndb unit
@@ -139,3 +149,27 @@ STATE.md                                       Prior state snapshot and integrat
 - The plugin is upgrade-safe because it lives outside OpenClaw core.
 - The installer intentionally does not patch OpenClaw source files.
 - The older `deploy/*` packs are preserved for history and comparison.
+
+## Using On Other Droplets
+
+On a new droplet:
+
+```bash
+git clone https://github.com/kpince/openclaw-ops.git
+cd openclaw-ops
+sudo -E ./install.sh
+```
+
+That installs:
+- `/root/codex.init`
+- `/root/AGENTS.md`
+- `/root/.local/bin/codex-muninn`
+- `/root/.codex/skills/openclaw-ops`
+
+From the first Codex session on that droplet, say:
+
+```text
+openclaw-ops
+```
+
+The skill will load the local bootstrap files and run the Muninn health checks against that host.
